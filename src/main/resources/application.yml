@@ -1,0 +1,24 @@
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/gen_test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: "123456"
+  servlet:
+    multipart:
+      max-file-size: 50Mb
+      max-request-size: 100Mb
+
+server:
+  port: 8083
+
+mybatis:
+  type-aliases-package: com.ray.entity
+  mapperLocations: classpath:mapper/*.xml
+
+logging:
+  level:
+    com.ldy: DEBUG
