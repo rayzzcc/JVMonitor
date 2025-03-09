@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: JVM
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
@@ -18,6 +20,29 @@ server:
 mybatis:
   type-aliases-package: com.ray.entity
   mapperLocations: classpath:mapper/*.xml
+
+influxdb:
+  url: http://localhost:8083
+  token: mvsI8GbRMO-4Di5fKW-1Qkr7zd8OU7Lz5k8h_LL2yfPig9GpQMBTrQvESREXrJWWtYfKUqvD_Rf-jhC90P4LkA==
+  org: ray
+  bucket: jvm-metrics
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    prometheus:
+      enabled: true
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+
 
 logging:
   level:

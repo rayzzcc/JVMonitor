@@ -1,5 +1,6 @@
 package com.ray.jvm.core.util;
 
+import com.google.common.cache.LoadingCache;
 import com.ray.jvm.common.enums.ErrorCode;
 import com.ray.jvm.common.exception.RuntimeException;
 import com.ray.jvm.core.model.Peer;
@@ -26,6 +27,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MBeanServerConnectionUtil {
 
     private static volatile Map<Peer, ServiceDescriptor> jmxServiceMap = new ConcurrentHashMap<>(16);
+
+
+
     /**
      * 获取jmx连接
      *
@@ -40,11 +44,11 @@ public class MBeanServerConnectionUtil {
             // initiate address of the JMX API connector server
             String serviceURL = "service:jmx:rmi:///jndi/rmi://" + peer.getHost() + ":" + peer.getPort() + "/jmxrmi";
             JMXServiceURL jmxServiceURL = new JMXServiceURL(serviceURL);
-
             // initiate client side JMX API connector
             // here we set environment attributes to null, because it is not a necessity to what we're going to do
             JMXConnector jmxConnector = JMXConnectorFactory.connect(jmxServiceURL, null);
 
+            //拿到MBeanServerConnection后就可以通过它来获取对应的MXBean
             MBeanServerConnection mBeanServerConnection = jmxConnector.getMBeanServerConnection();
             JmxMetricsService jmxMetricsService = new JmxMetricsService(mBeanServerConnection);
             jmxServiceMap.put(peer, new ServiceDescriptor(peer,jmxConnector,mBeanServerConnection,jmxMetricsService));

@@ -12,6 +12,7 @@ import com.ray.jvm.vo.reponse.Response4monitorVO;
 import com.ray.jvm.vo.reponse.Response4overviewVO;
 import com.ray.jvm.vo.reponse.Response4threadVO;
 import com.ray.jvm.vo.reponse.ThreadInfoVO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 
@@ -29,6 +30,7 @@ import java.util.Map;
  * @date :  2020-05-25 20:12
  */
 @Component
+@Slf4j
 public class JmsServiceImpl implements IJmsService {
     /**
      * 获取jmx概述信息
@@ -43,7 +45,6 @@ public class JmsServiceImpl implements IJmsService {
         }
         JmxMetricsService jmxMetricsService = descriptor.getJmxMetricsService();
         Response4overviewVO overviewVO = new Response4overviewVO();
-        System.out.println("============================="+jmxMetricsService.getPid());
         overviewVO.setPid(jmxMetricsService.getPid());
         overviewVO.setHost(jmxMetricsService.getHost());
         overviewVO.setBootClassPath(jmxMetricsService.getBootClassPath());
@@ -108,6 +109,7 @@ public class JmsServiceImpl implements IJmsService {
         /**获取内存信息**/
         //堆内存
         MemoryUsage heapMemoryUsage = jmxMetricsService.getHeapMemoryUsage();
+        System.out.println("heapMemoryUsage=" + heapMemoryUsage);
         //元空间
         MemoryUsage metaspaceUsage = jmxMetricsService.getPoolUsage(PoolEnum.META_SPACE);
         Response4monitorVO.Memory memory = new Response4monitorVO.Memory(heapMemoryUsage, metaspaceUsage);
